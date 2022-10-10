@@ -24,7 +24,7 @@ afterAll(() => {
 describe('API tests', () => {
   describe('Endpoint testing', () => {
 
-    test('return an array of objects with slug and description properties', () => {
+    test('GET/api/categories - return an array of objects with slug and description properties', () => {
       return request(app)
         .get("/api/categories")
         .expect(200)
@@ -41,7 +41,31 @@ describe('API tests', () => {
         })
       })
     })
-  })
+
+    test('GET/api/reviews/:review_id - return a review object with the following properties: review_id, title, review_body, designer, review_img_url, votes, category, owner', () => {
+      return request(app)
+        .get("/api/reviews/3")
+        .expect(200)
+        .then(({body}) => {
+          expect(body).toEqual(
+            expect.objectContaining({
+              review_id: expect.any(Number),
+              title: expect.any(String),
+              review_body: expect.any(String),
+              designer: expect.any(String),
+              review_img_url: expect.any(String),
+              votes: expect.any(Number),
+              category: expect.any(String),
+              owner: expect.any(String)
+            })
+          )
+        })
+      })
+    })
+  
+
+
+
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
