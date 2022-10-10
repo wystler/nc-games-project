@@ -40,29 +40,29 @@ describe('API tests', () => {
           )
         })
       })
-    })
+    })    
 
-    test('GET/api/reviews/:review_id - return a review object with the following properties: review_id, title, review_body, designer, review_img_url, votes, category, owner', () => {
+    test('GET/api/reviews/:review_id - return a specific review by passing a parametric endpoint to /api/reviews', () => {
       return request(app)
         .get("/api/reviews/3")
         .expect(200)
         .then(({body}) => {
           expect(body).toEqual(
-            expect.objectContaining({
-              review_id: expect.any(Number),
-              title: expect.any(String),
-              review_body: expect.any(String),
-              designer: expect.any(String),
-              review_img_url: expect.any(String),
-              votes: expect.any(Number),
-              category: expect.any(String),
-              owner: expect.any(String)
-            })
-          )
+            {
+              "category": "social deduction",
+              "created_at": "2021-01-18T10:01:41.251Z",
+              "designer": "Akihisa Okui",
+              "owner": "bainesface",
+              "review_body": "We couldn't find the werewolf!",
+              "review_id": 3,
+              "review_img_url": "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+              "title": "Ultimate Werewolf",
+              "votes": 5,
+            }
+          )          
         })
       })
     })
-  
 
 
 

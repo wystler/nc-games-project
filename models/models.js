@@ -5,4 +5,12 @@ const fetchCategories = () => {
     .then((categories) => { return categories.rows })
 }
 
-module.exports = {fetchCategories}
+const fetchReviews = (review_id) => {
+    let queryString = `SELECT * FROM reviews`
+    if (review_id) queryString += ` WHERE review_id=${review_id}`
+    return db.query(queryString)
+    .then((reviews) => {return reviews.rows[0]})
+}
+
+
+module.exports = {fetchReviews, fetchCategories}

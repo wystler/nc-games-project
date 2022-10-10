@@ -4,14 +4,15 @@ const app = express()
 app.use(express.json())
 
 //  any controllers the app needs to invoke
-const {getCategories} = require('./controllers/controllers.js')
+const {getReviews, getCategories} = require('./controllers/controllers.js')
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 app.get('/api/categories', getCategories)
 
-app.get('/api/reviews/:review_id')
+app.get('/api/reviews', getReviews)
+app.get('/api/reviews/:review_id', getReviews)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
