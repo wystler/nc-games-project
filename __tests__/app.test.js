@@ -30,13 +30,21 @@ describe('API tests', () => {
         .get("/api/categories")
         .expect(200)
         .then(({body}) => {
-          expect(body).toBeInstanceOf(Array)
-          expect(body).toHaveLength(8)
-          expect(body.hasOwnProperty("slug")).toBe(true)
-          expect(body.hasOwnProperty("description")).toBe(true)
+          expect(body).toBeInstanceOf(Array)        //  is it an array
+          expect(body).toHaveLength(4)              //  with 4 things in it
+          body.forEach((category) => {
+          expect(category).toEqual(
+            expect.objectContaining({               //  are those things objects
+              slug: expect.any(String),             //  with a slug property of string datatype
+              description: expect.any(String)       //  and a description property of string datatype
+            })
+          )
         })
       })
+    })
   })
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
   describe('Error handling tests', () => {
 
@@ -50,35 +58,3 @@ describe('API tests', () => {
     })
   })
 })
-
-
-
-//   test("status:200, responds with an array of treasure objects", () => {
-//     //  invoke it with the end point being tested
-// return request(app)
-//   .get("/api/")
-//     //  hopefully get a response code
-//   .expect(200)
-//     //  and some stuff in the body
-//   .then(({ body }) => {
-//     const { treasures } = body;
-//     //  that should be an array in this case
-//     expect(treasures).toBeInstanceOf(Array);
-//     //  with 26 objects inside
-//     expect(treasures).toHaveLength(26);
-//     treasures.forEach((treasure) => {
-//       expect(treasure).toEqual(
-//     //  with these characteristics
-//         expect.objectContaining({
-//           treasure_id: expect.any(Number),
-//           treasure_name: expect.any(String),
-//           colour: expect.any(String),
-//           age: expect.any(Number),
-//           cost_at_auction: expect.any(Number),
-//           shop_id: expect.any(Number),
-//         })
-//       );
-//     });
-//   });
-// });
-// })
