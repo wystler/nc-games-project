@@ -16,7 +16,7 @@ beforeEach(() => {
 
 //  so it doesnt just hang until jest gets bored
 afterAll(() => {
-    if (db.end) db.end();
+    db.end();
   });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
