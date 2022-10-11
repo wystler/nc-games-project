@@ -1,5 +1,5 @@
 //  any models the controllers need to invoke
-const {fetchReviews, fetchCategories} = require('../models/models.js')
+const {fetchReviewById, fetchCategories} = require('../models/models.js')
 
 const getCategories = (req, res) => {
     fetchCategories()
@@ -9,13 +9,14 @@ const getCategories = (req, res) => {
     })
 }
 
-const getReviews = (req, res) => {
-    fetchReviews(req.params.review_id)
+const getReviewById = (req, res, next) => {
+    fetchReviewById(req.params.review_id)
     .then((review) => {
         res.status(200)
         .send(review)
     })
+    .catch(next)   
 }
 
 //  any controllers needed by app
-module.exports = {getCategories, getReviews}
+module.exports = {getCategories, getReviewById}

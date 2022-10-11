@@ -1,7 +1,6 @@
 const request = require('supertest')
 const app = require('../app.js')
 
-//  aka index.js, connects node to the db
 const db = require('../db/connection.js')
 
 //  so tests are invoked with the test data rather than the whole dev db
@@ -49,10 +48,10 @@ describe('API tests', () => {
         .then(({body}) => {
           expect(body).toEqual(
             {
-              "category": "social deduction",
+              "category": "Players attempt to uncover each other's hidden role",
               "created_at": "2021-01-18T10:01:41.251Z",
               "designer": "Akihisa Okui",
-              "owner": "bainesface",
+              "owner": "sarah",
               "review_body": "We couldn't find the werewolf!",
               "review_id": 3,
               "review_img_url": "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
@@ -85,5 +84,25 @@ describe('API tests', () => {
         })
       })      
     })
-  })
-})
+
+    test('return "status:404, "sorry, no review with that id exists" when asked for a review_id that doesnt exist', () => {
+      return request(app)
+        .get('/api/reviews/100000')
+        .expect(404)
+        .then(({body}) => {
+          expect(body.msg).toBe("sorry, no review with that id exists")
+        })
+      })
+
+    test('return "status:400, "review id must be a number" when asked for a review_id that isnt a number', () => {
+      return request(app)
+        .get('/api/reviews/n0tANumb3r')
+        .expect(400)
+        .then(({body}) => {
+          expect(body.msg).toBe("review id must be a number")
+        })
+        
+      })
+
+  })  //  errors
+})    //  everything
