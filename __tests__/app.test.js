@@ -160,6 +160,15 @@ describe('API tests', () => {
         })
     })
 
+    test('return "status:400, request has a value of the incorrect datatype"', () => {
+      return request(app)
+        .patch('/api/reviews/notANumber')
+        .send({inc_votes:10})
+        .then(({body}) => {
+          expect(body.msg).toBe("request has a value of the incorrect datatype")
+        })
+    })
+
 
 
 
