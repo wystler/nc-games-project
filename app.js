@@ -3,7 +3,9 @@ const app = express()
 app.use(express.json())
 
 //  any controllers the app needs to invoke
-const {getReviewById, getCategories} = require('./controllers/controllers.js')
+const {getReviewById} = require('./controllers/reviews-controllers.js')
+const {getCategories} = require('./controllers/categories-controllers.js')
+const {} = require('./controllers/users-controllers.js')
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 

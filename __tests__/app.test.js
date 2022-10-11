@@ -1,6 +1,5 @@
 const request = require('supertest')
 const app = require('../app.js')
-
 const db = require('../db/connection.js')
 
 //  so tests are invoked with the test data rather than the whole dev db
@@ -48,15 +47,15 @@ describe('API tests', () => {
         .then(({body}) => {
           expect(body).toEqual(
             {
-              "category": "Players attempt to uncover each other's hidden role",
-              "created_at": "2021-01-18T10:01:41.251Z",
-              "designer": "Akihisa Okui",
-              "owner": "sarah",
-              "review_body": "We couldn't find the werewolf!",
-              "review_id": 3,
-              "review_img_url": "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
-              "title": "Ultimate Werewolf",
-              "votes": 5,
+              review_id: 3,
+              title: 'Ultimate Werewolf',
+              designer: 'Akihisa Okui',
+              owner: 'bainesface',
+              review_img_url: 'https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png',
+              review_body: "We couldn't find the werewolf!",
+              category: 'social deduction',
+              created_at: "2021-01-18T10:01:41.251Z",
+              votes: 5
             }
           )          
         })
