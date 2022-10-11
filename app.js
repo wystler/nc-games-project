@@ -29,13 +29,19 @@ app.use((err, req, res, next) => {
     }
 });
 
+//  if the database returns an error code
+app.use((err, req, res, next) => {
+  if (err.code === '22P02') {
+  res.status(400).send({msg:"review id must be a number"})
+  } else {
+    next(err)
+  }
+})
+
 //  otherwise this will get invoked as the last resort
 app.use((err, req, res, next) => {
-    if (err.code === '42703') {
-    res.status(400).send({msg:"review id must be a number"})
-  } else {
     res.status(500).send({ msg: 'Internal Server Error' });
-  }});
+});
 
 
 module.exports = app

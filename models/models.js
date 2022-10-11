@@ -7,12 +7,13 @@ const fetchCategories = () => {
 };
 
 const fetchReviewById = (review_id) => {
+
   return db
     .query(
       `SELECT * FROM reviews 
         JOIN categories ON reviews.category=categories.slug 
         JOIN users ON reviews.owner=users.username
-        WHERE review_id=${review_id}`
+        WHERE review_id=$1`, [review_id]
     )
 
     .then((reviewData) => {
