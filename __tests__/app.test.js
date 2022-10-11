@@ -142,9 +142,10 @@ describe('GET/api/reviews', () => {
       .get('/api/reviews')
       .expect(200)
       .then(({body}) => {
+        expect(body).toBeSortedBy("created_at", { descending: true })              
         expect(body).toBeInstanceOf(Array)        
-          expect(body).toHaveLength(13)              
-          body.forEach((review) => {
+        expect(body).toHaveLength(13)        
+        body.forEach((review) => {
           expect(review).toEqual(
             expect.objectContaining({               
               owner: expect.any(String),             
