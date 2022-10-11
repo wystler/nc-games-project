@@ -134,6 +134,35 @@ describe('GET/api/reviews/:review_id', () => {
   })
 })
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+describe('GET/api/reviews', () => {
+  test('returns a reviews array of review objects, each of which should have the following properties: owner, title, review_id, category, review_img_url, created_at, votes, designer, comment_count', () => {
+    return request(app)
+      .get('/api/reviews')
+      .expect(200)
+      .then(({body}) => {
+        expect(body).toBeInstanceOf(Array)        
+          expect(body).toHaveLength(13)              
+          body.forEach((review) => {
+          expect(review).toEqual(
+            expect.objectContaining({               
+              owner: expect.any(String),             
+              title: expect.any(String),
+              review_id: expect.any(Number),
+              category: expect.any(String),
+              review_img_url: expect.any(String),
+              created_at: expect.any(String),
+              votes: expect.any(Number),
+              designer: expect.any(String),
+              comment_count: expect.any(Number)
+            })
+          )
+        })
+      })
+    })
+  })
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 

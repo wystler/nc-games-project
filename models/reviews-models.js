@@ -1,4 +1,3 @@
-const { patch } = require("../app.js");
 const db = require("../db/connection.js");
 
 const fetchReviewById = (review_id) => {
@@ -41,4 +40,19 @@ const updateReviewById = (review_id, changeVotes) => {
   })
 }
 
-module.exports = { fetchReviewById, updateReviewById };
+const fetchReviews = () => {
+  return db
+    .query(
+      `SELECT reviews.*, 
+      COUNT(comments.comment_id) ::INT AS comment_count
+      FROM reviews
+      LEFT JOIN comments ON reviews.review_id = comments.review_id
+      GROUP BY reviews.review_id`
+    )
+    .then((reviews) => {
+        return reviews.rows
+    }
+  )
+}
+
+module.exports = { fetchReviews, fetchReviewById, updateReviewById };
