@@ -122,12 +122,12 @@ describe('API tests', () => {
         })
       })
 
-    test('return "status:400, review id must be a number" when asked for a review_id that isnt a number', () => {
+    test('return "status:400, request has a value of the incorrect datatype" when asked for a review_id that isnt a number', () => {
       return request(app)
         .get('/api/reviews/n0tANumb3r')
         .expect(400)
         .then(({body}) => {
-          expect(body.msg).toBe("request must be a number")
+          expect(body.msg).toBe("request has a value of the incorrect datatype")
         })       
       })
 
@@ -140,6 +140,25 @@ describe('API tests', () => {
           expect(body.msg).toBe("body of request is not in an acceptable form")
         })
       })
+
+    test('return "status:400, request has a value of the incorrect datatype"', () => {
+      const badPatch = {inc_votes:"notANumber"}
+      return request(app)
+        .patch('/api/reviews/2')
+        .send(badPatch)
+        .then(({body}) => {
+          expect(body.msg).toBe("request has a value of the incorrect datatype")
+        })
+    })
+
+    test('return "status:404, sorry, no review with that id exists', () => {
+      return request(app)
+        .patch('/api/reviews/200000')
+        .send({inc_votes:10})
+        .then(({body}) => {
+          expect(body.msg).toBe("sorry, no review with that id exists")
+        })
+    })
 
 
 

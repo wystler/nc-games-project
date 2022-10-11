@@ -38,12 +38,11 @@ app.use((err, req, res, next) => {
 //  if the database returns an error code
 app.use((err, req, res, next) => {
   if (err.code === '22P02') {
-  res.status(400).send({msg:"request must be a number"})
+  res.status(400).send({msg:"request has a value of the incorrect datatype"})
   }
   if (err.code === '23502') {
   res.status(400).send({msg:"body of request is not in an acceptable form"})
   } else {
-    console.log(err.code)
     next(err)
   }
 })
