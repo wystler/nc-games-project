@@ -49,6 +49,7 @@ app.use((err, req, res, next) => {
 
 //  otherwise this will get invoked as the last resort
 app.use((err, req, res, next) => {
+  console.log(err)
     res.status(500).send({ msg: 'Internal Server Error' });
 });
 
