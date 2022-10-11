@@ -99,7 +99,7 @@ describe('API tests', () => {
         .get('/api/reviews/n0tANumb3r')
         .expect(400)
         .then(({body}) => {
-          expect(body.msg).toBe("review id must be a number")
+          expect(body.msg).toBe("request must be a number")
         })
         
       })

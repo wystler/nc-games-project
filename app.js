@@ -32,7 +32,7 @@ app.use((err, req, res, next) => {
 //  if the database returns an error code
 app.use((err, req, res, next) => {
   if (err.code === '22P02') {
-  res.status(400).send({msg:"review id must be a number"})
+  res.status(400).send({msg:"request must be a number"})
   } else {
     next(err)
   }
