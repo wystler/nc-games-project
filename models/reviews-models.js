@@ -1,3 +1,4 @@
+const { patch } = require("../app.js");
 const db = require("../db/connection.js");
 
 const fetchReviewById = (review_id) => {
@@ -7,7 +8,6 @@ const fetchReviewById = (review_id) => {
       `SELECT * FROM reviews
       WHERE review_id=$1`, [review_id]
     )
-
     .then((reviewData) => {
       if (reviewData.rows.length === 0) {
         return Promise.reject({
@@ -20,4 +20,8 @@ const fetchReviewById = (review_id) => {
     });
 };
 
-module.exports = { fetchReviewById };
+const updateReviewById = (review_id, changeVotes) => {
+
+}
+
+module.exports = { fetchReviewById, updateReviewById };

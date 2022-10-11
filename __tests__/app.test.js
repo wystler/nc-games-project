@@ -78,16 +78,27 @@ describe('API tests', () => {
             )
           })
         })
-      })     
-  })
+      })
+      
+      test('PATCH/api/reviews/:review_id - update and return the updated review', () => {
+        return request(app)
+          .patch("/api/reviews/3")
+          .send({inc_votes: 20})
+          .expect(200)
+          .then(({body}) => {
+            expect(body.votes).toBe(25)
+          })
+      })
+      
+      
 
-
+    })  //  api tests
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
   describe('Error handling tests', () => {
 
-    test('return "status:404, Route not found', () => {
+    test('return "status:404, Route not found"', () => {
       return request(app)
         .get('/api/someRandomThingThatIsntAValidPath')
         .expect(404)
@@ -102,7 +113,7 @@ describe('API tests', () => {
       })      
     })
 
-    test('return "status:404, "sorry, no review with that id exists" when asked for a review_id that doesnt exist', () => {
+    test('return "status:404, sorry, no review with that id exists" when asked for a review_id that doesnt exist', () => {
       return request(app)
         .get('/api/reviews/100000')
         .expect(404)
@@ -111,15 +122,29 @@ describe('API tests', () => {
         })
       })
 
-    test('return "status:400, "review id must be a number" when asked for a review_id that isnt a number', () => {
+    test('return "status:400, review id must be a number" when asked for a review_id that isnt a number', () => {
       return request(app)
         .get('/api/reviews/n0tANumb3r')
         .expect(400)
         .then(({body}) => {
           expect(body.msg).toBe("request must be a number")
-        })
-        
+        })       
       })
+
+    test('return "status:400, body of request is not in an acceptable form"', () => {
+      const badPatch = {something:"wrong"}
+      return request(app)
+        .patch('/api/reviews/2')
+        .send(badPatch)
+        .then(({body}) => {
+          expect(body.msg).toBe("body of request is not in an acceptable form")
+        })
+      })
+
+
+
+
+
 
   })  //  errors
 })    //  everything
