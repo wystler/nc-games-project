@@ -1,15 +1,18 @@
-//  express setup
 const express = require('express')
 const app = express()
 app.use(express.json())
 
 //  any controllers the app needs to invoke
-const {getCategories} = require('./controllers/controllers.js')
+const {getReviewById} = require('./controllers/reviews-controllers.js')
+const {getCategories} = require('./controllers/categories-controllers.js')
+const {} = require('./controllers/users-controllers.js')
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 app.get('/api/categories', getCategories)
+
+app.get('/api/reviews/:review_id', getReviewById)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,11 +31,19 @@ app.use((err, req, res, next) => {
     }
 });
 
+//  if the database returns an error code
+app.use((err, req, res, next) => {
+  if (err.code === '22P02') {
+  res.status(400).send({msg:"request must be a number"})
+  } else {
+    next(err)
+  }
+})
+
 //  otherwise this will get invoked as the last resort
 app.use((err, req, res, next) => {
-    console.log(err);
-    res.sendStatus(500);
-  });
+    res.status(500).send({ msg: 'Internal Server Error' });
+});
 
-//  so testing can use them
+
 module.exports = app
