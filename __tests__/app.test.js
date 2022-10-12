@@ -301,5 +301,20 @@ describe('PATCH/api/reviews/:review_id', () => {
       })
     })
   })
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+describe('10. POST /api/reviews/:review_id/comments', () => {
+  test('add the passed comment to the comments table and return the added comment', () => {
+    return request(app)
+      .post('/api/reviews/10/comments')
+      .send({username:"bobGengisKhan", body:"wheels are terrible, hooves are better"})
+      .then(({body}) => {
+        expect(body).toEqual({username:"bobGengisKhan", body:"wheels are terrible, hooves are better"})
+
+      })
+  })
+})
+
 })
 
