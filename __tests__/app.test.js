@@ -233,7 +233,86 @@ describe('GET/api/reviews', () => {
         })
       })
     })
+  
+
+  test('returns all the reviews objects, ordered by any valid column name query', () => {
+    return request(app)
+    .get('/api/reviews?sort_by=votes')
+    .expect(200)
+    .then(({body}) => {
+      expect(body).toBeSortedBy("votes", { ascending: true })              
+      expect(body).toBeInstanceOf(Array)        
+      expect(body).toHaveLength(13)        
+      body.forEach((review) => {
+        expect(review).toEqual(
+          expect.objectContaining({               
+            owner: expect.any(String),             
+            title: expect.any(String),
+            review_id: expect.any(Number),
+            category: expect.any(String),
+            review_img_url: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+            designer: expect.any(String),
+            comment_count: expect.any(Number)
+          })
+        )
+      })
+    })
   })
+
+  test('returns all the reviews objects, ordered by any valid column name query', () => {
+    return request(app)
+    .get('/api/reviews?order=asc')
+    .expect(200)
+    .then(({body}) => {
+      expect(body).toBeSortedBy("created_at", { ascending: true })              
+      expect(body).toBeInstanceOf(Array)        
+      expect(body).toHaveLength(13)        
+      body.forEach((review) => {
+        expect(review).toEqual(
+          expect.objectContaining({               
+            owner: expect.any(String),             
+            title: expect.any(String),
+            review_id: expect.any(Number),
+            category: expect.any(String),
+            review_img_url: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+            designer: expect.any(String),
+            comment_count: expect.any(Number)
+          })
+        )
+      })
+    })
+  })
+
+  test('returns all the reviews objects, ordered by any valid column name query and direction', () => {
+    return request(app)
+    .get('/api/reviews?sort_by=title&order=asc')
+    .expect(200)
+    .then(({body}) => {
+      expect(body).toBeSortedBy("title", { ascending: true })              
+      expect(body).toBeInstanceOf(Array)        
+      expect(body).toHaveLength(13)        
+      body.forEach((review) => {
+        expect(review).toEqual(
+          expect.objectContaining({               
+            owner: expect.any(String),             
+            title: expect.any(String),
+            review_id: expect.any(Number),
+            category: expect.any(String),
+            review_img_url: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+            designer: expect.any(String),
+            comment_count: expect.any(Number)
+          })
+        )
+      })
+    })
+  })
+})
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
