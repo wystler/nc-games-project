@@ -136,6 +136,33 @@ describe('GET/api/reviews/:review_id', () => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+describe('GET /api/reviews/:review_id/comments', () => {
+  test('return an array of comments for the given review_id with each comment having the following properties: comment_id, votes, created_at, author, body, review_id', () => {
+    return request(app)
+      .get('/api/reviews/3/comments')
+      .expect(200)
+      .then(({body}) => {
+        expect(body).toBeSortedBy("created_at", { descending: true })              
+        expect(body).toBeInstanceOf(Array)        
+        expect(body).toHaveLength(3)        
+        body.forEach((comment) => {
+          expect(comment).toEqual(
+            expect.objectContaining({               
+              comment_id: expect.any(Number),             
+              votes: expect.any(Number),
+              created_at: expect.any(String),
+              author: expect.any(String),
+              body: expect.any(String),
+              review_id: expect.any(Number)
+            })
+          )
+        })
+      })
+  })
+})
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 describe('GET/api/reviews', () => {
   test('returns a reviews array of review objects, each of which should have the following properties: owner, title, review_id, category, review_img_url, created_at, votes, designer, comment_count', () => {
     return request(app)
@@ -240,3 +267,4 @@ describe('PATCH/api/reviews/:review_id', () => {
     })
   })
 })
+
