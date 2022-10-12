@@ -240,7 +240,7 @@ describe('GET/api/reviews', () => {
     .get('/api/reviews?sort_by=votes')
     .expect(200)
     .then(({body}) => {
-      expect(body).toBeSortedBy("votes", { ascending: true })              
+      expect(body).toBeSortedBy("votes", { descending: true })              
       expect(body).toBeInstanceOf(Array)        
       expect(body).toHaveLength(13)        
       body.forEach((review) => {
@@ -261,7 +261,7 @@ describe('GET/api/reviews', () => {
     })
   })
 
-  test('returns all the reviews objects, ordered by any valid column name query', () => {
+  test('returns all the reviews objects, ordered by any valid order direction query', () => {
     return request(app)
     .get('/api/reviews?order=asc')
     .expect(200)
@@ -289,10 +289,10 @@ describe('GET/api/reviews', () => {
 
   test('returns all the reviews objects, ordered by any valid column name query and direction', () => {
     return request(app)
-    .get('/api/reviews?sort_by=title&order=asc')
+    .get('/api/reviews?sort_by=designer&order=asc')
     .expect(200)
     .then(({body}) => {
-      expect(body).toBeSortedBy("title", { ascending: true })              
+      expect(body).toBeSortedBy("designer", { ascending: true })              
       expect(body).toBeInstanceOf(Array)        
       expect(body).toHaveLength(13)        
       body.forEach((review) => {

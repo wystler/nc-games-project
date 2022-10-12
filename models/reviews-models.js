@@ -1,3 +1,4 @@
+const { query } = require("../db/connection.js");
 const db = require("../db/connection.js");
 
 const fetchReviewById = (review_id) => {
@@ -40,17 +41,31 @@ const updateReviewById = (review_id, changeVotes) => {
   })
 }
 
-const fetchReviews = () => {
+const fetchReviews = (sort='created_at', order='desc') => {
+
+  const validSortQueries = ["owner", "title", "review_id", "category", "review_img_url", "created_at", "votes", "designer", "comment_count"]
+  const validOrderQueries = ["asc", "desc"]
+
+    if (!validSortQueries.includes(sort)) {
+        res.status(400)
+        .send({msg:"Invalid sort query type"})
+    }
+
+    if (!validOrderQueries.includes(order)) {
+      res.status(400)
+      .send({msg:"Invalid order query type"})
+  }
+
+  let queryString = 
+  `SELECT reviews.*, 
+  COUNT(comments.comment_id) ::INT AS comment_count
+  FROM reviews
+  LEFT JOIN comments ON reviews.review_id = comments.review_id
+  GROUP BY reviews.review_id
+  ORDER BY ${sort} ${order}`
+
   return db
-    .query(
-      `SELECT reviews.*, 
-      COUNT(comments.comment_id) ::INT AS comment_count
-      FROM reviews
-      LEFT JOIN comments ON reviews.review_id = comments.review_id
-      GROUP BY reviews.review_id
-      ORDER BY created_at DESC`
-      
-    )
+    .query( queryString )
     .then((reviews) => {
         return reviews.rows
     }
