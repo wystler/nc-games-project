@@ -177,12 +177,21 @@ test('return "status:404, Route not found"', () => {
   })      
 })
 
-test('return "status:404, sorry, there are no comments for that review, or there is no review with that id" when asked for a review_id that doesnt exist or the review has no comments', () => {
+test('return "status:404, Resource not found" when asked for a review_id that doesnt exist', () => {
   return request(app)
     .get('/api/reviews/100000/comments')
     .expect(404)
     .then(({body}) => {
-      expect(body.msg).toBe("sorry, there are no comments for that review, or there is no review with that id")
+      expect(body.msg).toBe("Resource not found")
+  })
+})
+
+test('return "status:200, sorry, there are no comments for that review" when asked for a review_id that doesnt exist', () => {
+  return request(app)
+    .get('/api/reviews/1/comments')
+    .expect(200)
+    .then(({body}) => {
+      expect(body.msg).toBe("sorry, there are no comments for that review")
   })
 })
 
