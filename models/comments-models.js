@@ -19,4 +19,8 @@ const fetchCommentsByReviewId = (review_id) => {
     })
 }
 
-module.exports = fetchCommentsByReviewId
+const publishCommentByReviewId = () => {
+    
+}
+
+module.exports = {publishCommentByReviewId, fetchCommentsByReviewId}

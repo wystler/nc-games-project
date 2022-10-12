@@ -1,4 +1,4 @@
-const fetchCommentsByReviewId = require('../models/comments-models')
+const {publishCommentByReviewId, fetchCommentsByReviewId} = require('../models/comments-models')
 
 const getCommentsByReviewId = (req, res, next) => {
     fetchCommentsByReviewId(req.params.review_id)
@@ -9,4 +9,7 @@ const getCommentsByReviewId = (req, res, next) => {
     .catch(next)
 }
 
-module.exports = {getCommentsByReviewId}
+const postCommentByReviewId = (req, res, next) => {
+    publishCommentByReviewId(req.body, req.params.review_id)
+}
+module.exports = {postCommentByReviewId, getCommentsByReviewId}
