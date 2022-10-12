@@ -11,5 +11,10 @@ const getCommentsByReviewId = (req, res, next) => {
 
 const postCommentByReviewId = (req, res, next) => {
     publishCommentByReviewId(req.body, req.params.review_id)
+    .then((newComment) => {
+        res.status(201)
+        .send(newComment)
+    })
+    .catch(next)
 }
 module.exports = {postCommentByReviewId, getCommentsByReviewId}

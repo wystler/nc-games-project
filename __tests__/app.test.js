@@ -317,13 +317,20 @@ describe('10. POST /api/reviews/:review_id/comments', () => {
   test('add the passed comment to the comments table and return the added comment', () => {
     return request(app)
       .post('/api/reviews/10/comments')
-      .send({username:"bobGengisKhan", body:"wheels are terrible, hooves are better"})
+      .send({username:"dav3rid", body:"4 wheels > 2"})
       .then(({body}) => {
-        expect(body).toEqual({username:"bobGengisKhan", body:"wheels are terrible, hooves are better"})
-
-      })
+        expect(body).toEqual(
+          expect.objectContaining({               
+            author: expect.any(String),             
+            body: expect.any(String),
+            comment_id: expect.any(Number),
+            created_at: expect.any(String),
+            review_id: expect.any(Number),
+            votes: expect.any(Number)
+          })
+        )
+    })
   })
-})
 
 })
-
+})

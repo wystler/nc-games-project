@@ -23,8 +23,17 @@ const fetchCommentsByReviewId = async (review_id) => {
     })
 }
 
-const publishCommentByReviewId = () => {
-    
+const publishCommentByReviewId = (comment, review_id) => {
+
+    return db
+    .query(
+        `INSERT INTO comments (body, author, review_id)
+        VALUES ($1, $2, $3)
+        RETURNING *`,
+        [comment.body, comment.username, review_id]
+    ).then((newComment) => {
+        return newComment.rows[0]
+    })
 }
 
 module.exports = {publishCommentByReviewId, fetchCommentsByReviewId}
