@@ -3,7 +3,7 @@ const app = express()
 app.use(express.json())
 
 //  any controllers the app needs to invoke
-const {getReviewById, patchReviewById} = require('./controllers/reviews-controllers.js')
+const {getReviewById, patchReviewById, getReviews} = require('./controllers/reviews-controllers.js')
 const {getCategories} = require('./controllers/categories-controllers.js')
 const {getUsers} = require('./controllers/users-controllers.js')
 
@@ -11,6 +11,8 @@ const {getUsers} = require('./controllers/users-controllers.js')
 
 
 app.get('/api/categories', getCategories)
+
+app.get('/api/reviews', getReviews)
 
 app.get('/api/reviews/:review_id', getReviewById)
 
