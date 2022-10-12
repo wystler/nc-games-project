@@ -23,7 +23,9 @@ const fetchCommentsByReviewId = async (review_id) => {
     })
 }
 
-const publishCommentByReviewId = (comment, review_id) => {
+const publishCommentByReviewId = async (comment, review_id) => {
+
+    await checkExists('reviews', 'review_id', review_id)
 
     return db
     .query(

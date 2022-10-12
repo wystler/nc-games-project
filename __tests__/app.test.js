@@ -277,6 +277,7 @@ describe('PATCH/api/reviews/:review_id', () => {
     return request(app)
       .patch('/api/reviews/2')
       .send(badPatch)
+      .expect(400)
       .then(({body}) => {
         expect(body.msg).toBe("body of request is not in an acceptable form")
     })
@@ -286,6 +287,7 @@ describe('PATCH/api/reviews/:review_id', () => {
     const badPatch = {inc_votes:"notANumber"}
     return request(app)
       .patch('/api/reviews/2')
+      .expect(400)
       .send(badPatch)
       .then(({body}) => {
         expect(body.msg).toBe("request has a value of the incorrect datatype")
@@ -296,6 +298,7 @@ describe('PATCH/api/reviews/:review_id', () => {
     return request(app)
       .patch('/api/reviews/200000')
       .send({inc_votes:10})
+      .expect(404)
       .then(({body}) => {
         expect(body.msg).toBe("sorry, no review with that id exists")
     })
@@ -305,6 +308,7 @@ describe('PATCH/api/reviews/:review_id', () => {
     return request(app)
       .patch('/api/reviews/notANumber')
       .send({inc_votes:10})
+      .expect(400)
       .then(({body}) => {
         expect(body.msg).toBe("request has a value of the incorrect datatype")
       })
@@ -313,11 +317,12 @@ describe('PATCH/api/reviews/:review_id', () => {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-describe('10. POST /api/reviews/:review_id/comments', () => {
+describe('POST /api/reviews/:review_id/comments', () => {
   test('add the passed comment to the comments table and return the added comment', () => {
     return request(app)
       .post('/api/reviews/10/comments')
       .send({username:"dav3rid", body:"4 wheels > 2"})
+      .expect(201)
       .then(({body}) => {
         expect(body).toEqual(
           expect.objectContaining({               
@@ -329,8 +334,43 @@ describe('10. POST /api/reviews/:review_id/comments', () => {
             votes: expect.any(Number)
           })
         )
+      })
+    })
+  
+
+  test('return "status:400, body of request is not in an acceptable form"', () => {
+    const badPost = {something:"wrong"}
+    return request(app)
+      .post('/api/reviews/2/comments')
+      .send(badPost)
+      .expect(400)
+      .then(({body}) => {
+        expect(body.msg).toBe("body of request is not in an acceptable form")
     })
   })
 
+  test('return "status:404, sorry, no user with that id exists"', () => {
+    return request(app)
+      .post('/api/reviews/2/comments')
+      .send({username:"bobGenghisKhan", body:"4 legs > 4 wheels"})
+      .expect(404)
+      .then(({body}) => {
+        expect(body.msg).toBe("sorry, no user with that id exists")
+    })
+  })
+
+  test('return "status:404, sorry, no review with that id exists', () => {
+    return request(app)
+      .post('/api/reviews/20000/comments')
+      .send({username:"dav3rid", body:"4 wheels > 2"})
+      .expect(404)
+      .then(({body}) => {
+        expect(body.msg).toBe("Resource not found")
+    })
+  })
+
+  
+  })
+
 })
-})
+
