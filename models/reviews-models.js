@@ -47,13 +47,13 @@ const fetchReviews = (sort='created_at', order='desc') => {
   const validOrderQueries = ["asc", "desc"]
 
     if (!validSortQueries.includes(sort)) {
-        res.status(400)
-        .send({msg:"Invalid sort query type"})
+      return Promise
+      .reject({status:400, msg:"Invalid sort query type"})
     }
 
     if (!validOrderQueries.includes(order)) {
-      res.status(400)
-      .send({msg:"Invalid order query type"})
+      return Promise
+      .reject({status:400, msg:"Invalid order query type"})
   }
 
   let queryString = 

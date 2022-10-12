@@ -312,6 +312,33 @@ describe('GET/api/reviews', () => {
       })
     })
   })
+
+  test('return "status:400, Invalid sort query type" when given an invalid sort query type', () => {
+    return request(app)
+    .get('/api/reviews?sort_by=notAColumn')
+    .expect(400)
+    .then(({body}) => {
+      expect(body.msg).toBe("Invalid sort query type")
+    })
+  })
+
+  test('return "status:400, Invalid order query type" when given an invalid order query type', () => {
+    return request(app)
+    .get('/api/reviews?order=random')
+    .expect(400)
+    .then(({body}) => {
+      expect(body.msg).toBe("Invalid order query type")
+    })
+  })
+
+  test('return "status:400, Invalid query type" when given an invalid query type', () => {
+    return request(app)
+    .get('/api/reviews?random=asc')
+    .expect(400)
+    .then(({body}) => {
+      expect(body.msg).toBe("Invalid query type")
+    })
+  })
 })
 
 
