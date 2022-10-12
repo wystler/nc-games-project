@@ -159,6 +159,41 @@ describe('GET /api/reviews/:review_id/comments', () => {
         })
       })
   })
+
+
+test('return "status:404, Route not found"', () => {
+  return request(app)
+    .get('/api/someRandomThingThatIsntAValidPath')
+    .expect(404)
+    .then(({body}) => {
+      expect(body.msg).toBe("Route not found")
+
+  return request(app)
+    .get('/someRandomThingThatIsntAValidPath')
+    .expect(404)
+    .then(({body}) => {
+      expect(body.msg).toBe("Route not found")
+    })
+  })      
+})
+
+test('return "status:404, sorry, no review with that id exists" when asked for a review_id that doesnt exist', () => {
+  return request(app)
+    .get('/api/reviews/100000')
+    .expect(404)
+    .then(({body}) => {
+      expect(body.msg).toBe("sorry, no review with that id exists")
+  })
+})
+
+test('return "status:400, request has a value of the incorrect datatype" when asked for a review_id that isnt a number', () => {
+  return request(app)
+    .get('/api/reviews/n0tANumb3r')
+    .expect(400)
+    .then(({body}) => {
+      expect(body.msg).toBe("request has a value of the incorrect datatype")
+  })       
+})
 })
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
