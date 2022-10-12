@@ -177,18 +177,18 @@ test('return "status:404, Route not found"', () => {
   })      
 })
 
-test('return "status:404, sorry, no review with that id exists" when asked for a review_id that doesnt exist', () => {
+test('return "status:404, sorry, there are no comments for that review, or there is no review with that id" when asked for a review_id that doesnt exist or the review has no comments', () => {
   return request(app)
-    .get('/api/reviews/100000')
+    .get('/api/reviews/100000/comments')
     .expect(404)
     .then(({body}) => {
-      expect(body.msg).toBe("sorry, no review with that id exists")
+      expect(body.msg).toBe("sorry, there are no comments for that review, or there is no review with that id")
   })
 })
 
 test('return "status:400, request has a value of the incorrect datatype" when asked for a review_id that isnt a number', () => {
   return request(app)
-    .get('/api/reviews/n0tANumb3r')
+    .get('/api/reviews/n0tANumb3r/comments')
     .expect(400)
     .then(({body}) => {
       expect(body.msg).toBe("request has a value of the incorrect datatype")
