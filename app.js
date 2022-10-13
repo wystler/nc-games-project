@@ -32,9 +32,9 @@ app.delete('/api/comments/:comment_id', deleteComment)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //  if the path isnt in the list of valid ones above
-app.all('/*', (req, res) => {
-    res.status(404).send({msg:"Route not found"})
-})
+// app.all('/*', (req, res) => {
+//     res.status(404).send({msg:"Route not found"})
+// })
 
 //  if there's some other error code and message passed back
 app.use((err, req, res, next) => {
