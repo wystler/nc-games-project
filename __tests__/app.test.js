@@ -27,13 +27,13 @@ describe('API tests', () => {
         .get("/api/categories")
         .expect(200)
         .then(({body}) => {
-          expect(body).toBeInstanceOf(Array)        //  is it an array
-          expect(body).toHaveLength(4)              //  with 4 things in it
+          expect(body).toBeInstanceOf(Array)        
+          expect(body).toHaveLength(4)              
           body.forEach((category) => {
           expect(category).toEqual(
-            expect.objectContaining({               //  are those things objects
-              slug: expect.any(String),             //  with a slug property of string datatype
-              description: expect.any(String)       //  and a description property of string datatype
+            expect.objectContaining({               
+              slug: expect.any(String),             
+              description: expect.any(String)       
             })
           )
         })
