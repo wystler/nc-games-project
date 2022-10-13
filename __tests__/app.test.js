@@ -233,7 +233,113 @@ describe('GET/api/reviews', () => {
         })
       })
     })
+  
+
+  test('returns all the reviews objects, ordered by any valid column name query', () => {
+    return request(app)
+    .get('/api/reviews?sort_by=votes')
+    .expect(200)
+    .then(({body}) => {
+      expect(body).toBeSortedBy("votes", { descending: true })              
+      expect(body).toBeInstanceOf(Array)        
+      expect(body).toHaveLength(13)        
+      body.forEach((review) => {
+        expect(review).toEqual(
+          expect.objectContaining({               
+            owner: expect.any(String),             
+            title: expect.any(String),
+            review_id: expect.any(Number),
+            category: expect.any(String),
+            review_img_url: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+            designer: expect.any(String),
+            comment_count: expect.any(Number)
+          })
+        )
+      })
+    })
   })
+
+  test('returns all the reviews objects, ordered by any valid order direction query', () => {
+    return request(app)
+    .get('/api/reviews?order=asc')
+    .expect(200)
+    .then(({body}) => {
+      expect(body).toBeSortedBy("created_at", { ascending: true })              
+      expect(body).toBeInstanceOf(Array)        
+      expect(body).toHaveLength(13)        
+      body.forEach((review) => {
+        expect(review).toEqual(
+          expect.objectContaining({               
+            owner: expect.any(String),             
+            title: expect.any(String),
+            review_id: expect.any(Number),
+            category: expect.any(String),
+            review_img_url: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+            designer: expect.any(String),
+            comment_count: expect.any(Number)
+          })
+        )
+      })
+    })
+  })
+
+  test('returns all the reviews objects, ordered by any valid column name query and direction', () => {
+    return request(app)
+    .get('/api/reviews?sort_by=designer&order=asc')
+    .expect(200)
+    .then(({body}) => {
+      expect(body).toBeSortedBy("designer", { ascending: true })              
+      expect(body).toBeInstanceOf(Array)        
+      expect(body).toHaveLength(13)        
+      body.forEach((review) => {
+        expect(review).toEqual(
+          expect.objectContaining({               
+            owner: expect.any(String),             
+            title: expect.any(String),
+            review_id: expect.any(Number),
+            category: expect.any(String),
+            review_img_url: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+            designer: expect.any(String),
+            comment_count: expect.any(Number)
+          })
+        )
+      })
+    })
+  })
+
+  test('return "status:400, Invalid sort query type" when given an invalid sort query type', () => {
+    return request(app)
+    .get('/api/reviews?sort_by=notAColumn')
+    .expect(400)
+    .then(({body}) => {
+      expect(body.msg).toBe("Invalid sort query type")
+    })
+  })
+
+  test('return "status:400, Invalid order query type" when given an invalid order query type', () => {
+    return request(app)
+    .get('/api/reviews?order=random')
+    .expect(400)
+    .then(({body}) => {
+      expect(body.msg).toBe("Invalid order query type")
+    })
+  })
+
+  test('return "status:400, Invalid query type" when given an invalid query type', () => {
+    return request(app)
+    .get('/api/reviews?random=asc')
+    .expect(400)
+    .then(({body}) => {
+      expect(body.msg).toBe("Invalid query type")
+    })
+  })
+})
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////

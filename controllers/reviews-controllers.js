@@ -22,7 +22,14 @@ const patchReviewById = (req, res, next) => {
 }
 
 const getReviews = (req, res, next) => {
-    fetchReviews()
+    const validQueries = ["sort_by", "order"]
+    for (const prop in req.query) {
+        if (!validQueries.includes(prop)) {
+            res.status(400)
+            .send({msg:"Invalid query type"})
+        }
+    }
+    fetchReviews(req.query.sort_by, req.query.order)
     .then((reviews) => {
         res.status(200)
         .send(reviews)
