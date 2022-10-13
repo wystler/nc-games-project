@@ -25,6 +25,8 @@ app.patch('/api/reviews/:review_id', patchReviewById)
 
 app.post('/api/reviews/:review_id/comments', postCommentByReviewId)
 
+app.delete('/api/comments/:comment_id', deleteComment)
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //  if the path isnt in the list of valid ones above

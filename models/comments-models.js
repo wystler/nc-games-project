@@ -38,4 +38,14 @@ const publishCommentByReviewId = async (comment, review_id) => {
     })
 }
 
-module.exports = {publishCommentByReviewId, fetchCommentsByReviewId}
+const removeComment = (comment_id) => {
+    
+    return db
+    .query(
+        `DELETE FROM comments
+        WHERE comment_id=$1`,
+        [comment_id]
+    )
+}
+
+module.exports = {removeComment, publishCommentByReviewId, fetchCommentsByReviewId}
