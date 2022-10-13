@@ -478,11 +478,14 @@ describe('POST /api/reviews/:review_id/comments', () => {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-describe('DELETE /api/comments/:comment_id', () => {
+describe.only('DELETE /api/comments/:comment_id', () => {
   test('return "status:204" and no content', () => {
     return request(app)
     .delete('/api/comments/1')
     .expect(204)
+    .then(({body}) => {
+      expect(body).toEqual({})
+    })
   })
 })
 })
