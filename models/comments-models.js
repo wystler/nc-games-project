@@ -38,8 +38,10 @@ const publishCommentByReviewId = async (comment, review_id) => {
     })
 }
 
-const removeComment = (comment_id) => {
+const removeComment = async (comment_id) => {
     
+    await checkExists('comments', 'comment_id', comment_id)
+
     return db
     .query(
         `DELETE FROM comments
