@@ -257,7 +257,16 @@ describe('GET/api/reviews', () => {
             )
           })
         })
-      })  
+      })
+      
+    test('return "status:400, Invalid category type" when given an invalid category type query', () => {
+      return request(app)
+      .get('/api/reviews?category=cheese')
+      .expect(400)
+      .then(({body}) => {
+        expect(body.msg).toBe("Invalid category type")
+      })
+    })
 
   test('returns all the reviews objects, ordered by any valid column name query', () => {
     return request(app)

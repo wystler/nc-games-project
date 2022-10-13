@@ -50,7 +50,7 @@ const fetchReviews = (sort='created_at', order='desc', category) => {
 
     if(!validCategories.includes(category)) {
       return Promise
-      .reject({status:400, msg:"Invalid sort query type"})
+      .reject({status:400, msg:"Invalid category type"})
     }
 
     if (!validSortQueries.includes(sort)) {
