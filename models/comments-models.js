@@ -38,4 +38,17 @@ const publishCommentByReviewId = async (comment, review_id) => {
     })
 }
 
-module.exports = {publishCommentByReviewId, fetchCommentsByReviewId}
+const removeComment = async (comment_id) => {
+    
+    await checkExists('comments', 'comment_id', comment_id)
+
+    return db
+    .query(
+        `DELETE FROM comments
+        WHERE comment_id=$1
+        RETURNING *`,
+        [comment_id]
+    )
+}
+
+module.exports = {removeComment, publishCommentByReviewId, fetchCommentsByReviewId}

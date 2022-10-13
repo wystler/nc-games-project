@@ -465,7 +465,7 @@ describe('POST /api/reviews/:review_id/comments', () => {
     })
   })
 
-  test('return "status:404, sorry, no review with that id exists', () => {
+  test('return "status:404, sorry, no review with that id exists"', () => {
     return request(app)
       .post('/api/reviews/20000/comments')
       .send({username:"dav3rid", body:"4 wheels > 2"})
@@ -474,9 +474,37 @@ describe('POST /api/reviews/:review_id/comments', () => {
         expect(body.msg).toBe("Resource not found")
     })
   })
+})
 
-  
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+describe('DELETE /api/comments/:comment_id', () => {
+  test('return "status:204" and no content', () => {
+    return request(app)
+    .delete('/api/comments/1')
+    .expect(204)
+    .then(({body}) => {
+      expect(body).toEqual({})
+    })
   })
 
+test('return "status:404, Resource not found" when passed id does not exist ', () => {
+  return request(app)
+    .delete('/api/comments/20000')
+    .expect(404)
+    .then(({body}) => {
+      expect(body.msg).toBe("Resource not found")
+  })
+})
+
+test('return "status:400, request has a value of the incorrect datatype" when passed id is not a number', () => {
+  return request(app)
+    .delete('/api/comments/notAnId')
+    .expect(400)
+    .then(({body}) => {
+      expect(body.msg).toBe("request has a value of the incorrect datatype")
+  })
+})
+})
 })
 
