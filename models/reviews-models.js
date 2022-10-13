@@ -12,6 +12,7 @@ const fetchReviewById = (review_id) => {
       WHERE reviews.review_id=$1
       GROUP BY reviews.review_id`, [review_id]
     )
+
     .then((reviewData) => {
       if (reviewData.rows.length === 0) {
         return Promise.reject({
@@ -41,10 +42,16 @@ const updateReviewById = (review_id, changeVotes) => {
   })
 }
 
-const fetchReviews = (sort='created_at', order='desc') => {
+const fetchReviews = (sort='created_at', order='desc', category) => {
 
   const validSortQueries = ["owner", "title", "review_id", "category", "review_img_url", "created_at", "votes", "designer", "comment_count"]
   const validOrderQueries = ["asc", "desc"]
+  const validCategories = ["euro game", "social deduction", "dexterity", "children's games", undefined]
+
+    if(!validCategories.includes(category)) {
+      return Promise
+      .reject({status:400, msg:"Invalid sort query type"})
+    }
 
     if (!validSortQueries.includes(sort)) {
       return Promise
@@ -57,12 +64,17 @@ const fetchReviews = (sort='created_at', order='desc') => {
   }
 
   let queryString = 
-  `SELECT reviews.*, 
+  `SELECT reviews.*,
   COUNT(comments.comment_id) ::INT AS comment_count
   FROM reviews
-  LEFT JOIN comments ON reviews.review_id = comments.review_id
+  LEFT JOIN comments ON reviews.review_id = comments.review_id`
+
+  if(category!=undefined) queryString+=` WHERE category='${category}'`
+
+  queryString +=`
   GROUP BY reviews.review_id
   ORDER BY ${sort} ${order}`
+  
 
   return db
     .query( queryString )

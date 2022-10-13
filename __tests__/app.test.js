@@ -233,7 +233,31 @@ describe('GET/api/reviews', () => {
         })
       })
     })
-  
+
+    test('returns a reviews array of review objects, all with the passed category type', () => {
+      return request(app)
+        .get('/api/reviews?category=dexterity')
+        .expect(200)
+        .then(({body}) => {     
+          expect(body).toBeInstanceOf(Array)        
+          expect(body).toHaveLength(1)        
+          body.forEach((review) => {
+            expect(review).toEqual(
+              expect.objectContaining({               
+                owner: expect.any(String),             
+                title: expect.any(String),
+                review_id: expect.any(Number),
+                category: expect.any(String),
+                review_img_url: expect.any(String),
+                created_at: expect.any(String),
+                votes: expect.any(Number),
+                designer: expect.any(String),
+                comment_count: expect.any(Number)
+              })
+            )
+          })
+        })
+      })  
 
   test('returns all the reviews objects, ordered by any valid column name query', () => {
     return request(app)
@@ -505,6 +529,19 @@ test('return "status:400, request has a value of the incorrect datatype" when pa
       expect(body.msg).toBe("request has a value of the incorrect datatype")
   })
 })
+})
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+describe('GET /api', () => {
+  test('returns the api endpoints file as a json', () => {
+    return request(app)
+    .get('/api')
+    .expect(200)
+    .then(({body}) => {
+      expect(body).toBeInstanceOf(Object)
+    })
+  })
 })
 })
 

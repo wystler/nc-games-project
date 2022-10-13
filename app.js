@@ -7,9 +7,11 @@ const {getReviewById, patchReviewById, getReviews} = require('./controllers/revi
 const {deleteComment, getCommentsByReviewId, postCommentByReviewId} = require('./controllers/comments-controllers.js')
 const {getCategories} = require('./controllers/categories-controllers.js')
 const {getUsers} = require('./controllers/users-controllers.js')
+const getPaths = require('./controllers/misc-controllers')
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
+app.get('/api', getPaths)
 
 app.get('/api/categories', getCategories)
 
