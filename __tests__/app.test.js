@@ -465,7 +465,7 @@ describe('POST /api/reviews/:review_id/comments', () => {
     })
   })
 
-  test('return "status:404, sorry, no review with that id exists', () => {
+  test('return "status:404, sorry, no review with that id exists"', () => {
     return request(app)
       .post('/api/reviews/20000/comments')
       .send({username:"dav3rid", body:"4 wheels > 2"})
@@ -478,7 +478,7 @@ describe('POST /api/reviews/:review_id/comments', () => {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-describe.only('DELETE /api/comments/:comment_id', () => {
+describe('DELETE /api/comments/:comment_id', () => {
   test('return "status:204" and no content', () => {
     return request(app)
     .delete('/api/comments/1')
@@ -488,5 +488,15 @@ describe.only('DELETE /api/comments/:comment_id', () => {
     })
   })
 })
+
+test('return "status:404, sorry, no review with that id exists" when ', () => {
+  return request(app)
+    .delete('/api/comments/20000')
+    .expect(404)
+    .then(({body}) => {
+      expect(body.msg).toBe("Resource not found")
+  })
+})
+
 })
 
