@@ -2,32 +2,8 @@ const express = require('express')
 const app = express()
 app.use(express.json())
 
-//  any controllers the app needs to invoke
-const {getReviewById, patchReviewById, getReviews} = require('./controllers/reviews-controllers.js')
-const {deleteComment, getCommentsByReviewId, postCommentByReviewId} = require('./controllers/comments-controllers.js')
-const {getCategories} = require('./controllers/categories-controllers.js')
-const {getUsers} = require('./controllers/users-controllers.js')
-const getPaths = require('./controllers/misc-controllers')
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-app.get('/api', getPaths)
-
-app.get('/api/categories', getCategories)
-
-app.get('/api/reviews', getReviews)
-
-app.get('/api/reviews/:review_id', getReviewById)
-
-app.get('/api/reviews/:review_id/comments', getCommentsByReviewId)
-
-app.get('/api/users', getUsers)
-
-app.patch('/api/reviews/:review_id', patchReviewById)
-
-app.post('/api/reviews/:review_id/comments', postCommentByReviewId)
-
-app.delete('/api/comments/:comment_id', deleteComment)
+const apiRouter = require('./routes/api-router.js')
+app.use('/api', apiRouter)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 

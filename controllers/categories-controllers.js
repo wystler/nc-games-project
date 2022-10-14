@@ -9,4 +9,4 @@ const getCategories = (req, res, next) => {
     .catch(next)
 }
 
-module.exports = {getCategories} 
+module.exports = getCategories
