@@ -25,14 +25,6 @@ I recommend using Node version 18.7.0 and Postgres 8.8.0 or higher to run this r
 Some dependencies will need to be installed by running the following commands :   
 ```
 $ npm i
-
-$ npm i express
-
-$ npm i pg
-
-$ npm i pg-format
-
-$ npm i dotenv --save
 ```
 To allow the test suite to run, these can be installed as dev dependencies
 ```
