@@ -42,9 +42,11 @@ $ npm i -D jest-sorted
 
 $ npm i -D supertest
 ```
-## Seeding the database
+## Creating and seeding the database
 
 ```
+$ npm run setup-dbs
+
 $ npm run seed
 ```
 
