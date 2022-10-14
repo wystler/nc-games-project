@@ -552,5 +552,33 @@ describe('GET /api', () => {
     })
   })
 })
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+describe('GET /api/users/:username', () => {
+  test('returns an object containing the specified users details', () => {
+    return request(app)
+    .get('/api/users/bainesface')
+    .expect(200)
+    .then(({body}) => {
+      expect(body).toEqual({
+        username: 'bainesface',
+        name: 'sarah',
+        avatar_url: 'https://avatars2.githubusercontent.com/u/24394918?s=400&v=4'
+      })
+    })
+  })
+
+  test('returns "status:404, Resource not found" when a requesting a non existant username', () => {
+    return request(app)
+    .get('/api/users/notAUsername')
+    .expect(404)
+    .then(({body}) => {
+      expect(body.msg).toBe("Resource not found")
+    })
+  })
+})
+
 })
 
