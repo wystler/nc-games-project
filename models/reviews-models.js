@@ -1,4 +1,3 @@
-const { query } = require("../db/connection.js");
 const db = require("../db/connection.js");
 
 const fetchReviewById = (review_id) => {
