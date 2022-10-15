@@ -8,6 +8,7 @@ const fetchUsers = async (username) => {
     if (username) {
         await checkExists('users', 'username', username)
         queryString += ` WHERE username='${username}'`}
+        
     return db.query(queryString)
     .then((users) => {
         return users.rows
