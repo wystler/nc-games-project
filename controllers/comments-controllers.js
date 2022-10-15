@@ -33,6 +33,7 @@ const patchComment = (req, res, next) => {
         res.status(200)
         .send(patchedComment)
     })
+    .catch(next)
 }
 
 module.exports = {patchComment, deleteComment, postCommentByReviewId, getCommentsByReviewId}

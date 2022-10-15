@@ -53,8 +53,6 @@ const removeComment = async (comment_id) => {
 
 const updateCommentByCommentId = async (comment_id, patch) => {
 
-    await checkExists('comments', 'comment_id', comment_id)
-
     return db
     .query (
     `UPDATE comments SET votes= votes+$2 WHERE comment_id=$1 RETURNING *`, [comment_id, patch.inc_votes]

@@ -592,6 +592,48 @@ describe('PATCH /api/comments/:comment_id', () => {
       expect(body.votes).toBe(33)
     })
   })
+
+  test('return "status:400, body of request is not in an acceptable form"', () => {
+    const badPatch = {something:"wrong"}
+    return request(app)
+      .patch('/api/comments/2')
+      .send(badPatch)
+      .expect(400)
+      .then(({body}) => {
+        expect(body.msg).toBe("body of request is not in an acceptable form")
+    })
+  })
+
+  test('return "status:400, request has a value of the incorrect datatype"', () => {
+    const badPatch = {inc_votes:"notANumber"}
+    return request(app)
+      .patch('/api/comments/2')
+      .expect(400)
+      .send(badPatch)
+      .then(({body}) => {
+        expect(body.msg).toBe("request has a value of the incorrect datatype")
+    })
+  })
+
+  test('return "status:404, sorry, no comment with that id exists', () => {
+    return request(app)
+      .patch('/api/comments/200000')
+      .send({inc_votes:10})
+      .expect(404)
+      .then(({body}) => {
+        expect(body.msg).toBe("sorry, no comment with that id exists")
+    })
+  })
+
+  test('return "status:400, request has a value of the incorrect datatype"', () => {
+    return request(app)
+      .patch('/api/comments/notANumber')
+      .send({inc_votes:10})
+      .expect(400)
+      .then(({body}) => {
+        expect(body.msg).toBe("request has a value of the incorrect datatype")
+      })
+    })
 })
 
 
