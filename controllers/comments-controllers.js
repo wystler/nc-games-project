@@ -1,4 +1,4 @@
-const {removeComment, publishCommentByReviewId, fetchCommentsByReviewId} = require('../models/comments-models')
+const {updateCommentByCommentId, removeComment, publishCommentByReviewId, fetchCommentsByReviewId} = require('../models/comments-models')
 
 const getCommentsByReviewId = (req, res, next) => {
     fetchCommentsByReviewId(req.params.review_id)
@@ -27,4 +27,12 @@ const deleteComment = (req, res, next) => {
     .catch(next)
 }
 
-module.exports = {deleteComment, postCommentByReviewId, getCommentsByReviewId}
+const patchComment = (req, res, next) => {
+    updateCommentByCommentId(req.params.comment_id, req.body)
+    .then((patchedComment) => {
+        res.status(200)
+        .send(patchedComment)
+    })
+}
+
+module.exports = {patchComment, deleteComment, postCommentByReviewId, getCommentsByReviewId}

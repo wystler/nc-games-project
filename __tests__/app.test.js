@@ -580,5 +580,22 @@ describe('GET /api/users/:username', () => {
   })
 })
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+describe('PATCH /api/comments/:comment_id', () => {
+  test('updates the specified comment and returns the updated comment', () => {
+    return request(app)
+    .patch("/api/comments/2")
+    .send({inc_votes: 20})
+    .expect(200)
+    .then(({body}) => {
+      expect(body.votes).toBe(33)
+    })
+  })
 })
+
+
+})
+
+
 

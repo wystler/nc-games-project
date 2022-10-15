@@ -51,4 +51,24 @@ const removeComment = async (comment_id) => {
     )
 }
 
-module.exports = {removeComment, publishCommentByReviewId, fetchCommentsByReviewId}
+const updateCommentByCommentId = async (comment_id, patch) => {
+
+    await checkExists('comments', 'comment_id', comment_id)
+
+    return db
+    .query (
+    `UPDATE comments SET votes= votes+$2 WHERE comment_id=$1 RETURNING *`, [comment_id, patch.inc_votes]
+      )
+    .then((updatedComment) => {
+      if (updatedComment.rows.length === 0) {
+        return Promise.reject({
+          status:404,
+          msg: "sorry, no comment with that id exists",
+        })
+      } else {
+      return updatedComment.rows[0]
+    }
+})
+}
+
+module.exports = {updateCommentByCommentId, removeComment, publishCommentByReviewId, fetchCommentsByReviewId}
