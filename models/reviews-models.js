@@ -45,7 +45,7 @@ const fetchReviews = (sort='created_at', order='desc', category) => {
 
   const validSortQueries = ["owner", "title", "review_id", "category", "review_img_url", "created_at", "votes", "designer", "comment_count"]
   const validOrderQueries = ["asc", "desc"]
-  const validCategories = ["euro game", "social deduction", "dexterity", "children's games", undefined]
+  const validCategories = ["euro game", "social deduction", "dexterity", "children's games", undefined, " ", "strategy", "hidden-roles", "push-your-luck", "roll-and-write", "deck-building", "engine-building"]
 
     if(!validCategories.includes(category)) {
       return Promise
