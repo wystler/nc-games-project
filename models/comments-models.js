@@ -30,7 +30,7 @@ const publishCommentByReviewId = async (comment, review_id) => {
     return db
     .query(
         `INSERT INTO comments (body, author, review_id)
-        WHERE comment_id=$3
+        WHERE review_id=$3
         VALUES ($1, $2, $3)
         RETURNING *`,
         [comment.body, comment.username, review_id]
@@ -46,7 +46,7 @@ const removeComment = async (comment_id) => {
     return db
     .query(
         `DELETE FROM comments
-        WHERE review_id=$1
+        WHERE comment_id=$1
         RETURNING *`,
         [comment_id]
     )
