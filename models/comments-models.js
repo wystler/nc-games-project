@@ -30,7 +30,6 @@ const publishCommentByReviewId = async (comment, review_id) => {
     return db
     .query(
         `INSERT INTO comments (body, author, review_id)
-        WHERE review_id=$3
         VALUES ($1, $2, $3)
         RETURNING *`,
         [comment.body, comment.username, review_id]
